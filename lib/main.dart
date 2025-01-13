@@ -1,6 +1,9 @@
+import 'package:crypto_wallet/services/wallet_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
@@ -21,6 +24,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
+void test() async {
+  final x = await WalletService().createWallet();
+  print('x: $x');
+}
+
+void connect() async {
+  final x = await WalletService().connectToRPC();
+  print('x: $x');
+}
+
+void walletAddress() async {
+  final x = await WalletService().getWalletBalance();
+  print('x: $x');
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -37,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
     });
+    walletAddress();
   }
 
   @override
