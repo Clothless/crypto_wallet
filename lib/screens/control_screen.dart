@@ -36,6 +36,7 @@ class _ControlScreenState extends ConsumerState<ControlScreen> {
   @override
   Widget build(BuildContext context) {
     final walletState = ref.watch(walletProvider);
+    final rpcState = ref.watch(rpcProvider);
 
     return Scaffold(
       body: Center(
@@ -66,21 +67,22 @@ class _ControlScreenState extends ConsumerState<ControlScreen> {
                       Text(walletState.privateKey.address.toString()),
                       const SizedBox(height: 20),
                       const Text('Wallet Balance:'),
-                      Text(ref.read(walletProvider.notifier).walletBalance!.getValueInUnit(EtherUnit.ether).toString()),
+                      Text(rpcState!.walletBalance == null ? "" : rpcState.walletBalance!.getValueInUnit(EtherUnit.ether).toString()),
                       const SizedBox(height: 20),
                       const Text('Gas Price:'),
-                      Text((ref.read(walletProvider.notifier).gasPrice!.getValueInUnit(EtherUnit.gwei)).toString()),
+                      Text(rpcState.gasPrice == null ? "" : (rpcState.gasPrice!.getValueInUnit(EtherUnit.gwei)).toString()),
                       const SizedBox(height: 20),
                       const Text('Transactions Count:'),
-                      Text(ref.read(walletProvider.notifier).transactionsCount.toString()),
+                      Text(rpcState.transactionCount == null ? "" : rpcState.transactionCount.toString()),
                       ElevatedButton(
-                          onPressed: () async {
-                            print("Yes you taped here!");
-                            await ref.read(walletProvider.notifier).sendTransaction(toAddress: "0xaD6ebED117A6bD4ad0B99C6278c8B9aB6f1009D7", amount: "0.01");
-                            await ref.read(walletProvider.notifier).getWalletBalance();
-                            print("yes it's done!!!");
-                          },
-                          child: Text("Testing button"))
+                        onPressed: () async {
+                          print("Yes you taped here!");
+                          await ref.read(walletProvider.notifier).sendTransaction(toAddress: "0xaD6ebED117A6bD4ad0B99C6278c8B9aB6f1009D7", amount: "0.01");
+                          await ref.read(rpcProvider.notifier).getAllInfo();
+                          print("yes it's done!!!");
+                        },
+                        child: Text("Testing button"),
+                      )
                     ],
                   ),
           ],
