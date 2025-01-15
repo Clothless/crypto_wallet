@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:crypto_wallet/core/endpoints.dart';
+import 'package:crypto_wallet/core/const/endpoints.dart';
 import 'package:crypto_wallet/services/interceptors.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
